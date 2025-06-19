@@ -225,13 +225,22 @@
       color: white;
       text-align: center;
       white-space: pre-line;
-      animation: scrollUp 120s linear infinite;
+      animation: scrollUp 180s linear infinite; /* เปลี่ยนจาก 120s เป็น 180s */
       font-size: 2.5em;
       line-height: 1.6;
       padding: 30px 15px;
       box-sizing: border-box;
       font-weight: 400;
       text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.4);
+    }
+
+    @keyframes scrollUp {
+      from {
+        transform: translateY(calc(100vh - 190px));
+      }
+      to {
+        transform: translateY(-100%);
+      }
     }
 
     .category-header {
@@ -306,15 +315,6 @@
       display: block;
       text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
       margin: 0;
-    }
-
-    @keyframes scrollUp {
-      from {
-        transform: translateY(calc(100vh - 190px));
-      }
-      to {
-        transform: translateY(-100%);
-      }
     }
 
     /* Loading Animation */
@@ -488,10 +488,10 @@
   </div>
 
   <script>
-  const SHEETS_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/A1:J7?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0';
-  const RESERVE_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%88%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%A3%E0%B8%B0!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0';
-  const BANK_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B8%AD%E0%B8%94%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%9F%E0%B9%8C!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0';
-  const SCHOOL_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B9%82%E0%B8%AD%E0%B8%99%E0%B9%80%E0%B8%82%E0%B9%89%E0%B8%B2%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%94%E0%B9%89%E0%B8%AA%E0%B8%96%E0%B8%B2%E0%B8%99%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0';
+  const SHEETS_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/A1:J7?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // สรุปข้อมูลจาก Google Sheets
+  const RESERVE_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%88%E0%B8%AD%E0%B8%87%E0%B8%9E%E0%B8%A3%E0%B8%B0!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // รายการจองพระ
+  const BANK_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B8%AD%E0%B8%94%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%AF!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // บัญชีผ้าป่าสามัคคี
+  const SCHOOL_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%94%E0%B9%89%E0%B8%AA%E0%B8%96%E0%B8%B2%E0%B8%99%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // เงินรายได้สถานศึกษา
 
   function parseAmount(amountText) {
     if (!amountText) return 0;
@@ -571,7 +571,7 @@
 
   let marqueeGroups = [];
   let currentGroupIndex = 0;
-  let marqueeDuration = 120000;
+  let marqueeDuration = 180000; // เปลี่ยนจาก 120000 เป็น 180000 (180 วินาที)
 
   async function fetchAllMarqueeGroups() {
     try {
@@ -580,36 +580,21 @@
         fetch(BANK_API_URL),
         fetch(SCHOOL_API_URL)
       ]);
-      const reserveData = await reserveRes.json();
+      // const reserveData = await reserveRes.json(); // ไม่ใช้แล้ว
       const bankData = await bankRes.json();
       const schoolData = await schoolRes.json();
 
       marqueeGroups = [];
 
-      // รายการจองพระ
-      if (reserveData.values && reserveData.values.length > 1) {
-        let startIdx = 0;
-        if (reserveData.values[0][1] && reserveData.values[0][1].includes("เลขที่ใบเสร็จ")) startIdx = 1;
-        let html = `<div class="category-header">🙏 รายการจองพระ</div>`;
-        for (let i = startIdx; i < reserveData.values.length; i++) {
-          const row = reserveData.values[i];
-          if (!row[0] || !row[2]) continue;
-          html += `<div class="donor-item">
-            <span class="donor-name">${row[0]}</span>
-            <span class="donor-amount">${parseInt(row[2]).toLocaleString()} บาท</span>
-          </div>`;
-        }
-        marqueeGroups.push(html);
-      }
-
-      // โอนเข้าบัญชีทอดผ้าป่าฯ
+      // --- โอนเข้าบัญชีทอดผ้าป่าฯ (เริ่มต้น) ---
       if (bankData.values && bankData.values.length > 1) {
         let startIdx = 0;
         if (bankData.values[0][1] && bankData.values[0][1].includes("เลขที่ใบเสร็จ")) startIdx = 1;
+        // เรียงลำดับเงินมากไปน้อย
+        const rows = bankData.values.slice(startIdx).filter(row => row[0] && row[2]);
+        rows.sort((a, b) => parseFloat(b[2]) - parseFloat(a[2]));
         let html = `<div class="category-header">🏦 โอนเข้าบัญชีทอดผ้าป่าฯ</div>`;
-        for (let i = startIdx; i < bankData.values.length; i++) {
-          const row = bankData.values[i];
-          if (!row[0] || !row[2]) continue;
+        for (const row of rows) {
           html += `<div class="donor-item">
             <span class="donor-name">${row[0]}</span>
             <span class="donor-amount">${parseInt(row[2]).toLocaleString()} บาท</span>
@@ -618,14 +603,14 @@
         marqueeGroups.push(html);
       }
 
-      // โอนเข้าบัญชีรายได้สถานศึกษา
+      // --- โอนเข้าบัญชีรายได้สถานศึกษา ---
       if (schoolData.values && schoolData.values.length > 1) {
         let startIdx = 0;
         if (schoolData.values[0][1] && schoolData.values[0][1].includes("เลขที่ใบเสร็จ")) startIdx = 1;
+        const rows = schoolData.values.slice(startIdx).filter(row => row[0] && row[2]);
+        rows.sort((a, b) => parseFloat(b[2]) - parseFloat(a[2]));
         let html = `<div class="category-header">🎓 โอนเข้าบัญชีรายได้สถานศึกษา</div>`;
-        for (let i = startIdx; i < schoolData.values.length; i++) {
-          const row = schoolData.values[i];
-          if (!row[0] || !row[2]) continue;
+        for (const row of rows) {
           html += `<div class="donor-item">
             <span class="donor-name">${row[0]}</span>
             <span class="donor-amount">${parseInt(row[2]).toLocaleString()} บาท</span>
