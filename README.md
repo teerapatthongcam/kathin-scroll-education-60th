@@ -1,6 +1,7 @@
-﻿# ระบบแสดงรายชื่อผู้บริจาคในงานทอดผ้าป่าสามัคคีเพื่อการศึกษา (Scroll Text Generator)
+# ระบบแสดงรายชื่อผู้บริจาคในงานทอดผ้าป่าสามัคคีเพื่อการศึกษา
 
-โปรเจกต์นี้ใช้สำหรับแสดงรายชื่อผู้บริจาคและยอดเงินจาก Google Sheets ในรูปแบบข้อความเลื่อนขึ้น (Marquee) พร้อมแสดงยอดเงินรวม ในงานทอดผ้าป่าสามัคคีเพื่อการศึกษา เนื่องในวาระครบรอบ 60 ปี โรงเรียนชะอำคุณหญิงเนื่องบุรี
+โปรเจกต์นี้ใช้สำหรับแสดงรายชื่อผู้บริจาคและยอดเงินจาก Google Sheets ในรูปแบบข้อความเลื่อนขึ้น (Marquee) พร้อมแสดงยอดเงินรวม เหมาะสำหรับงานทอดผ้าป่าสามัคคีเพื่อการศึกษา เนื่องในวาระครบรอบ 60 ปี โรงเรียนชะอำคุณหญิงเนื่องบุรี
+
 ---
 
 ## โครงสร้างไฟล์
@@ -27,23 +28,27 @@ scroll text generator/
 
 ## จุดที่ต้องแก้ไข (สำหรับผู้ใช้งาน)
 
-### 1. **ตั้งค่าสีหลัก สีรอง และโลโก้**
+### 1. ตั้งค่าสีหลัก สีรอง และโลโก้
+
 - เปิดไฟล์ `style.css` แล้วแก้ไขค่าตัวแปรในส่วนบนสุด เช่น
 
-```css
-:root {
-  --primary-color: #198754;   /* สีหลัก */
-  --secondary-color: #ffc107; /* สีรอง */
-}
-```
+    ```css
+    :root {
+      --primary-color: #198754;   /* สีหลัก */
+      --secondary-color: #ffc107; /* สีรอง */
+    }
+    ```
+
 - เปลี่ยนโลโก้ในไฟล์ `index.html`  
   ตัวอย่าง:
-  ```html
-  <img src="img/chnb-logo.svg" alt="โลโก้" class="logo">
-  ```
+    ```html
+    <img src="img/chnb-logo.svg" alt="โลโก้" class="logo">
+    ```
   หากต้องการใช้โลโก้ของคุณเอง ให้นำไฟล์โลโก้ไปไว้ในโฟลเดอร์ `img/` แล้วเปลี่ยนชื่อไฟล์ในบรรทัดนี้
 
-### 2. **ตั้งค่า Google Sheets API**
+---
+
+### 2. ตั้งค่า Google Sheets API
 
 #### โครงสร้าง URL สำหรับดึงข้อมูล
 
@@ -90,15 +95,10 @@ const SCHOOL_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1AbCDefGhI
 > - ต้องเปิดสิทธิ์ Google Sheets เป็น "Anyone with the link can view"
 > - หากเปลี่ยนชื่อชีทหรือช่วงเซลล์ ต้องแก้ไข URL ให้ตรงกัน
 
-**ตัวอย่างโค้ดใน main.js**
+---
 
-```javascript
-const SHEETS_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1AbCDefGhIJKlmnOPQrstUvWxYz1234567890/values/A1:J7?key=YOUR_API_KEY';
-const BANK_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1AbCDefGhIJKlmnOPQrstUvWxYz1234567890/values/บัญชีทอดผ้าป่าฯ!B:D?key=YOUR_API_KEY';
-const SCHOOL_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1AbCDefGhIJKlmnOPQrstUvWxYz1234567890/values/บัญชีรายได้สถานศึกษา!B:D?key=YOUR_API_KEY';
-```
+### 3. ชื่อชีทใน Google Sheets
 
-### 3. **ชื่อชีทใน Google Sheets**
 - ชื่อชีทต้องตรงกับที่ระบุใน URL (เช่น `บัญชีทอดผ้าป่าาฯ`, `บัญชีรายได้สถานศึกษา`)
 - ถ้าเปลี่ยนชื่อชีท ต้องแก้ URL ใน `main.js` ให้ตรง
 
@@ -148,7 +148,10 @@ const SCHOOL_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1AbCDefGhI
 
 ## หากพบปัญหาในการใช้งาน หรือมีข้อเสนอแนะเพิ่มเติม
 
-สามารถติดต่อครูปิยะพล พวงบุบผา, ครูเบญจมาพร  เรืองอร่าม และนายธีรภัทร์ ทองคำ
+สามารถติดต่อ  
+- ครูปิยะพล พวงบุบผา  
+- ครูเบญจมาพร เรืองอร่าม  
+- นายธีรภัทร์ ทองคำ
 
 ---
 
