@@ -1,6 +1,28 @@
-const SHEETS_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/A1:J7?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // สรุปข้อมูลจาก Google Sheets
-const BANK_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%97%E0%B8%AD%E0%B8%94%E0%B8%9C%E0%B9%89%E0%B8%B2%E0%B8%9B%E0%B9%88%E0%B8%B2%E0%B8%AF!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // บัญชีผ้าป่าสามัคคี
-const SCHOOL_API_URL = 'https://sheets.googleapis.com/v4/spreadsheets/1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs/values/%E0%B8%9A%E0%B8%B1%E0%B8%8D%E0%B8%8A%E0%B8%B5%E0%B8%A3%E0%B8%B2%E0%B8%A2%E0%B9%84%E0%B8%94%E0%B9%89%E0%B8%AA%E0%B8%96%E0%B8%B2%E0%B8%99%E0%B8%A8%E0%B8%B6%E0%B8%81%E0%B8%A9%E0%B8%B2!B:D?key=AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0'; // เงินรายได้สถานศึกษา
+// ========================================
+// 🔧 ส่วนตั้งค่า - แก้ไขเฉพาะส่วนนี้
+// ========================================
+
+// ⚠️ สำคัญ: ให้แก้ไขเฉพาะ 2 ค่านี้เท่านั้น
+const SPREADSHEET_ID = '1MAj8VCJSx46Z1XYfvKpF7vm6Yr0gx3_c1KKbc57Hbfs'; // 📝 ใส่ ID ของ Google Sheets ของคุณ
+const API_KEY = 'AIzaSyDxTCnWAV0-sS2EE7r7E7WIza3B9zVwfM0';           // 🔑 ใส่ API Key ของคุณ
+
+// 📋 ชื่อชีทใน Google Sheets (ถ้าต้องการเปลี่ยน)
+const SUMMARY_SHEET = 'A1:J7';                    // ชีทสรุปยอดเงิน
+const BANK_SHEET = 'บัญชีทอดผ้าป่าฯ!B:D';         // ชีทบัญชีทอดผ้าป่า
+const SCHOOL_SHEET = 'บัญชีรายได้สถานศึกษา!B:D';   // ชีทบัญชีรายได้สถานศึกษา
+
+// ⏱️ การตั้งค่าเวลา (หน่วยเป็นวินาที)
+const UPDATE_INTERVAL = 10 * 60;     // อัปเดตข้อมูลทุก 10 นาที
+const MARQUEE_DURATION = 180;        // แสดงข้อมูลแต่ละกลุ่ม 3 นาที (180 วินาที)
+
+// ========================================
+// 💻 ส่วนโค้ดหลัก - ห้ามแก้ไข
+// ========================================
+
+// สร้าง URL สำหรับเรียกข้อมูล
+const SHEETS_API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SUMMARY_SHEET}?key=${API_KEY}`;
+const BANK_API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(BANK_SHEET)}?key=${API_KEY}`;
+const SCHOOL_API_URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${encodeURIComponent(SCHOOL_SHEET)}?key=${API_KEY}`;
 
 function parseAmount(amountText) {
   if (!amountText) return 0;
@@ -28,7 +50,7 @@ function updateAmounts(data) {
   let donationAmount = 0;
   let amuletAmount = 0;
   let totalAmount = 0;
-  
+
   for (let j = 0; j < data[3].length; j++) {
     if (data[3][j] && data[3][j].includes("เงินบริจาค")) {
       donationAmount = parseAmount(data[4][j]);
@@ -37,23 +59,23 @@ function updateAmounts(data) {
       amuletAmount = parseAmount(data[4][j]);
     }
   }
-  
+
   for (let j = 0; j < data[3].length; j++) {
     if (data[3][j] && data[3][j].includes("ยอดเงินทั้งหมด")) {
-      if (data[3][j-1]) totalAmount = parseAmount(data[3][j-1]);
-      else if (data[3][j+1]) totalAmount = parseAmount(data[3][j+1]);
+      if (data[3][j - 1]) totalAmount = parseAmount(data[3][j - 1]);
+      else if (data[3][j + 1]) totalAmount = parseAmount(data[3][j + 1]);
     }
   }
-  
+
   if (totalAmount === 0) {
     for (let j = 0; j < data[1].length; j++) {
       if (data[1][j] && data[1][j].includes("ยอดเงินทั้งหมด")) {
-        if (data[1][j-1]) totalAmount = parseAmount(data[1][j-1]);
-        else if (data[1][j+1]) totalAmount = parseAmount(data[1][j+1]);
+        if (data[1][j - 1]) totalAmount = parseAmount(data[1][j - 1]);
+        else if (data[1][j + 1]) totalAmount = parseAmount(data[1][j + 1]);
       }
     }
   }
-  
+
   if (totalAmount === 0) {
     totalAmount = donationAmount + amuletAmount;
   }
@@ -62,7 +84,7 @@ function updateAmounts(data) {
   document.getElementById('donation-amount').classList.remove('loading');
   document.getElementById('amulet-amount').classList.remove('loading');
   document.getElementById('total-amount').classList.remove('loading');
-  
+
   document.getElementById('donation-amount').textContent = `${donationAmount.toLocaleString()} บาท`;
   document.getElementById('amulet-amount').textContent = `${amuletAmount.toLocaleString()} บาท`;
   document.getElementById('total-amount').textContent = `${totalAmount.toLocaleString()} บาท`;
@@ -80,7 +102,6 @@ function updateLastUpdateTime() {
 
 let marqueeGroups = [];
 let currentGroupIndex = 0;
-let marqueeDuration = 180000; // 180 วินาที
 
 async function fetchAllMarqueeGroups() {
   try {
@@ -148,14 +169,14 @@ function showCurrentMarqueeGroup() {
   setTimeout(() => {
     currentGroupIndex = (currentGroupIndex + 1) % marqueeGroups.length;
     showCurrentMarqueeGroup();
-  }, marqueeDuration);
+  }, MARQUEE_DURATION * 1000);
 }
 
 function init() {
   fetchDataFromGoogleSheets();
   fetchAllMarqueeGroups();
-  setInterval(fetchDataFromGoogleSheets, 10 * 60 * 1000);
-  setInterval(fetchAllMarqueeGroups, 10 * 60 * 1000);
+  setInterval(fetchDataFromGoogleSheets, UPDATE_INTERVAL * 1000);
+  setInterval(fetchAllMarqueeGroups, UPDATE_INTERVAL * 1000);
 }
 
 document.addEventListener('DOMContentLoaded', init);
